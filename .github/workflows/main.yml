@@ -14,5 +14,5 @@ jobs:
         server: winweb20.servicehoster.ch
         username: ${{ secrets.ftp_user }}
         password: ${{ secrets.ftp_password }}
-        protocol: ftps
+        protocol: ftp
         port: 21
