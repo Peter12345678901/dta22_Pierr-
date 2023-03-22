@@ -11,6 +11,7 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
+        local-dir: ./public/
         server: winweb20.servicehoster.ch
         username: ${{ secrets.ftp_user }}
         password: ${{ secrets.ftp_password }}
