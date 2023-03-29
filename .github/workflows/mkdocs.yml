@@ -1,0 +1,16 @@
+site_name: Demo Seite von Pierr&#233
+site_url:
+http://gbs.niederer.swis/dta22/Pierre
+theme:
+  name: material
+  pallette:
+    scheme: slate
+    primary: deep purple
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+nav:
+  - Home: index.md
+  - Details: details.md
+copyright: 'Version: ${BUILD_VERSION}'
