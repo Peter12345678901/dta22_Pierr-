@@ -4,22 +4,6 @@ on:
       - release/***
 name: 🚀 Deploy website on push
 jobs:
-  web-deploy:
-    name: 🎉 Deploy
-    runs-on: ubuntu-latest
-    steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v3
-      
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-      with:
-        local-dir: ./public/
-        server: winweb20.servicehoster.ch
-        username: ${{ secrets.ftp_user }}
-        password: ${{ secrets.ftp_password }}
-        protocol: ftp
-        port: 21
 build-page:
     name: ⚙️ Build page
     runs-on: ubuntu-latest
@@ -36,3 +20,20 @@ usage
         name: public-page
         path: public
         retention-days: 0
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v3
+      
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        local-dir: ./public/
+        server: winweb20.servicehoster.ch
+        username: ${{ secrets.ftp_user }}
+        password: ${{ secrets.ftp_password }}
+        protocol: ftp
+        port: 21
+
