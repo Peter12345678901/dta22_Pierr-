@@ -1,7 +1,8 @@
 on: 
   push:
-    tags:
-      - release/* 
+    branches:
+      - main
+      - 'release/**'
 name: 🚀 Deploy website on push
 jobs:
   web-deploy:
