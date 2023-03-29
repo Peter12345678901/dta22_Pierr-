@@ -1,7 +1,4 @@
-on: 
-  push:
-    tags:
-      - release/***
+on: push
 name: 🚀 Deploy website on push
 jobs:
 build-page:
