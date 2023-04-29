@@ -1,12 +1,12 @@
 on:
-<<<<<<< Updated upstream
+
   push:
     tags:
       - release/**
 
 name: 🚀 Deploy website on push
 
-jobs:
+job:
   set-env:
     name: ⚛ Create Environment
     runs-on: ubuntu-latest
@@ -16,29 +16,28 @@ jobs:
         echo "BUILD_VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
     outputs:
       BUILD_VERSION: ${{env.BUILD_VERSION}}
-      
+
   build-page:
     name: 🎉 Build and Deploy
     runs-on: ubuntu-latest
     needs: set-env
     steps:
-    
       - name: 🚚 Get latest code
         uses: actions/checkout@v3
-	
+
       - name: ⚙️ Building web page
         run: |
           pip install mkdocs mkdocs-material
           sed -i 's/\${BUILD_VERSION}/${{needs.set-env.outputs.BUILD_VERSION}}/' mkdocs.yml
           mkdocs build --site-dir "public/"
-	  
+         
       - name: 💾 Storing generated page for later usage
         uses: actions/upload-artifact@v3
         with:
           name: public-page
           path: public
           retention-days: 0
-	  
+
   build-and-deploy:
       name: 🎉 Deploy
       runs-on: ubuntu-latest
@@ -59,7 +58,7 @@ jobs:
           local-dir: ./public/
           protocol: ftp
           port: 21
-	  
+
   build-release:
     name: ⚙️ Add Release
     runs-on: ubuntu-latest
@@ -78,6 +77,7 @@ jobs:
     - name: 'Echo download path'
       run: echo ${{steps.download.outputs.download-path}}
     - uses: vimtor/action-zip@v1.1
+
       name: Create zip
       with:
         files: ./public/
@@ -86,91 +86,3 @@ jobs:
       name: Create Release
       with:
         artifacts: DevOps-Demo-${{needs.set-env.outputs.BUILD_VERSION}}.zip
-=======
-  push:
-    tags:
-      - release/**
-
-name: 🚀 Deploy website on push
-
-jobs:
-  set-env:
-    name: ⚛ Create Environment
-    runs-on: ubuntu-latest
-    steps:
-    - name: Extract version
-      run: |
-        echo "BUILD_VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
-    outputs:
-      BUILD_VERSION: ${{env.BUILD_VERSION}}
-      
-  build-page:
-    name: 🎉 Build and Deploy
-    runs-on: ubuntu-latest
-    needs: set-env
-    steps:
-    
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v3
-	
-      - name: ⚙️ Building web page
-        run: |
-          pip install mkdocs mkdocs-material
-          sed -i 's/\${BUILD_VERSION}/${{needs.set-env.outputs.BUILD_VERSION}}/' mkdocs.yml
-          mkdocs build --site-dir "public/"
-	  
-      - name: 💾 Storing generated page for later usage
-        uses: actions/upload-artifact@v3
-        with:
-          name: public-page
-          path: public
-          retention-days: 0
-	  
-  build-and-deploy:
-      name: 🎉 Deploy
-      runs-on: ubuntu-latest
-      needs: build-page
-      steps:
-      - name: Get Artefact
-        uses: actions/download-artifact@v3
-        with:
-          name: public-page
-          path: public
-
-      - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: winweb20.servicehoster.ch
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          local-dir: ./public/
-          protocol: ftp
-          port: 21
-	  
-  build-release:
-    name: ⚙️ Add Release
-    runs-on: ubuntu-latest
-    needs: [build-page, set-env]
-    permissions:
-      contents: write
-      actions: read
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/download-artifact@v3
-      name: Download Artefact
-      id: download
-      with:
-        name: public-page
-        path: public
-    - name: 'Echo download path'
-      run: echo ${{steps.download.outputs.download-path}}
-    - uses: vimtor/action-zip@v1.1
-      name: Create zip
-      with:
-        files: ./public/
-        dest: DevOps-Demo-${{needs.set-env.outputs.BUILD_VERSION}}.zip
-    - uses: ncipollo/release-action@v1
-      name: Create Release
-      with:
-        artifacts: DevOps-Demo-${{needs.set-env.outputs.BUILD_VERSION}}.zip
->>>>>>> Stashed changes
