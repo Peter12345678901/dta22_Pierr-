@@ -24,7 +24,7 @@ jobs:
     
       - name: 🚚 Get latest code
         uses: actions/checkout@v3
-
+	
       - name: ⚙️ Building web page
         run: |
           pip install mkdocs mkdocs-material
@@ -58,7 +58,7 @@ jobs:
           local-dir: ./public/
           protocol: ftp
           port: 21
-
+	  
   build-release:
     name: ⚙️ Add Release
     runs-on: ubuntu-latest
