@@ -85,6 +85,3 @@ jobs:
       name: Create Release
       with:
         artifacts: DevOps-Demo-${{needs.set-env.outputs.BUILD_VERSION}}.zip
-
-
-          
